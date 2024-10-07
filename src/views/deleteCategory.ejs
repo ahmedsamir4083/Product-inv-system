@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Category.css">
+    <title>Delete Category</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/category">Categories</a></li>
+                <li><a href="/products">Products</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Delete Category</h1>
+            </header>
+
+            <section id="products">
+                <h2>Are you sure you want to delete this category</h2>
+
+                
+                <form id="update-form" class="category-form" action="/category/deleteCategory/<%= category.Category_id %>?_method=DELETE" method="POST">
+                    <button type="submit" class="submit-btn">Yes</button>
+                    <button><a href="/category" class="submit-btn">No</a></button>
+                </form>
+                
+                
+                
+                
+
+            </section>
+            
+
+        </main>
+    </div>
+
+
+</body>
+</html>

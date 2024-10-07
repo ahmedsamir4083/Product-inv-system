@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Category.css">
+    <title>Category</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/category">Categories</a></li>
+                <li><a href="/products">Products</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Category</h1>
+                
+                <button class="deleted-category-btn">
+                    <a href="/category/categoryBin">Deleted Categories</a>
+                </button>
+            </header>
+
+            <section id="products">
+                <h2>Category</h2>
+                <p>Find our latest categories here.</p>
+            
+                <% categories.forEach(category => { %>
+                    <div class="category-item">
+                        <ul>
+                            <li><%= category.Category_name %></li>
+                            <p class="category-description"><%= category.Category_description %></p>
+                        </ul>
+                    </div>
+                <% }) %>
+            </section>
+
+            <button class="add-category-btn"><a href="/category/addCategory">Add category</a></button>
+            <button class="add-category-btn"><a href="/category/searchCategory">Search Category by ID</a></button>
+        </main>
+    </div>
+</body>
+</html>

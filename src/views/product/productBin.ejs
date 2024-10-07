@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Product.css">
+    <title>Product Bin</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/category">Categories</a></li>
+                <li><a href="/products">Products</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Product Bin</h1>
+            </header>
+
+            <section id="products">
+                <h2>Deleted Products</h2>
+            
+                <% product.forEach(product => { %>
+                    <div class="product-item">
+                        <ul>
+                            <li><a href="#"><%= product.Product_name %></a></li>
+                            <p class="product-description"><%= product.Product_description %></p>
+                            <p><strong>Price:</strong> $<%= product.Product_price %></p>
+                            <p><strong>Quantity:</strong> <%= product.Product_quantity %></p>
+                            <button class="restore-product-btn"><a href="/products/restoreProduct/<%= product.Product_id %>">Restore Product</a></button>
+                        </ul>
+                    </div>
+                <% }) %>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Category.css">
+    <title>Category</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/category">Categories</a></li>
+                <li><a href="/products">Products</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Category</h1>
+            </header>
+
+            <section id="products">
+                <h2>Category</h2>
+                <p>Find our latest categories here.</p>
+                
+
+                
+                <button class="add-category-btn" onclick="toggleForm()">Add Category</button>
+
+                
+                <form id="add-category-form" class="category-form" style="display: none;" action="/category/addCategory" method="POST">
+                    <div class="form-group">
+                        <label for="category-name">Name: <span class="required">*</span></label>
+                        <input type="text" id="Category_name" name="Category_name" required placeholder="Enter category name">
+                    </div>
+                    <div class="form-group">
+                        <label for="category-description">Description:</label>
+                        <textarea id="Category_description" name="Category_description" placeholder="Enter category description (optional)"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script>
+
+        function toggleForm() {
+            var form = document.getElementById('add-category-form');
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

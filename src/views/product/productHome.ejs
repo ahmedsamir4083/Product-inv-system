@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Product.css">
+    <title>Product</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/category">Categories</a></li>
+                <li><a href="/products">Products</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Products</h1>
+
+                <button class="deleted-product-btn">
+                    <a href="/products/productBin">Deleted Categories</a>
+                </button>
+            </header>
+
+            <!-- Filter Section -->
+            <section id="filter">
+                <h2>Filter Products by Category</h2>
+                <form action="/products/filterByCategory" method="POST">
+
+                    <div class="form-group">
+                        <label for="category-filter">Choose a Category:</label>
+                        <select id="category-filter" name="categoryId" onchange="this.form.submit()">
+                            <option value="">Show All Products</option>
+                            <% categories.forEach(category => { %>
+                                <option value="<%= category.Category_id %>"><%= category.Category_name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                  
+                  </form>
+            </section>
+
+           <form id="sort-form" action="/products/sort" method="GET">
+    <div class="form-group">
+        <label for="sort-criteria">Sort by:</label>
+        <select id="sort-criteria" name="criteria">
+            <option value="Product_price">Price</option>
+            <option value="Product_quantity">Quantity</option>
+        </select>
+
+        <label for="sort-order">Order:</label>
+        <select id="sort-order" name="sort">
+            <option value="asc">Low to High</option>
+            <option value="desc">High to Low</option>
+        </select>
+
+        <button type="submit">Sort</button>
+    </div>
+</form>
+
+            <!-- Products Section -->
+            <section id="products">
+                <h2>Products</h2>
+                <p>Find our latest products here.</p>
+
+                <% if (product.length > 0) { %>
+                    <% product.forEach((product, index) => { %>
+                        <div class="product-item">
+                            <h3><%= product.Product_name %></h3>
+                            <p><strong>Price:</strong> $<%= product.Product_price %></p>
+                            <p><strong>Quantity:</strong> <%= product.Product_quantity %></p>
+                            <p><strong>Total Value:</strong> $<%= totalValue[index] %></p>
+                            <p><%= product.Product_description %></p>
+                            <p><strong>Category ID:</strong> <%= product.Category_id %></p>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p>No products available in this category.</p>
+                <% } %>
+
+                <div class="pagination">
+                    <% if (currentPage > 1) { %>
+                      <a href="/products?page=<%= currentPage - 1 %>">Previous</a>
+                    <% } %>
+                    
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                      <a href="/products?page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+                    <% } %>
+                    
+                    <% if (currentPage < totalPages) { %>
+                      <a href="/products?page=<%= currentPage + 1 %>">Next</a>
+                    <% } %>
+                  </div>
+                
+            </section>
+
+            <button class="add-Product-btn">
+                <a href="/products/addProduct">Add a Product</a>
+            </button>
+
+            <button class="add-Product-btn">
+                <a href="/products/searchProduct">Search a Product</a>
+            </button>
+        </main>
+    </div>
+
+
+    
+</body>
+</html>

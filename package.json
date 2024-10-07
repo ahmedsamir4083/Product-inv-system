@@ -8,5 +8,17 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cache-manager": "^3.4.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "method-override": "^3.0.0",
+    "mysql2": "^3.11.3",
+    "node-cache-manager": "^1.2.0",
+    "nodemon": "^3.1.7",
+    "redis": "^4.7.0",
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2"
+  }
 }

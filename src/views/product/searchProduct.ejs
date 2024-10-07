@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Category.css">
+    <title>Category</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/category">Categories</a></li>
+                <li><a href="/products">Products</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Search Product</h1>
+            </header>
+
+            <section id="products">
+                <h2>Product</h2>
+            
+     
+
+                <button class="add-category-btn" id="search-btn">Search Product by ID</button>
+                <button class="add-category-btn" id="searchName-btn">Search Product by Name</button>
+
+                
+                <form id="search-form" class="category-form" action="/products" method="GET" onsubmit="updateActionUrl(event)">
+                    <div class="form-group">
+                        <label for="product-id">Enter Product ID:</label>
+                        <input type="number" id="id" name="id" required placeholder="Product ID">
+                    </div>
+                    <button type="submit" class="submit-btn">Search</button>
+                </form>
+
+                <form id="searchName-form" class="category-form" action="/products/searchNameProduct" method="POST" style="display:none;">
+                    <div class="form-group">
+                        <label for="product-name">Search by Product Name:</label>
+                        <input type="text" id="product-name" name="productName" placeholder="Enter Product Name" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Search</button>
+                </form>
+
+                
+
+            </section>
+            
+        </main>
+    </div>
+
+    <script>
+        const searchBtn = document.getElementById('search-btn');
+        const searchForm = document.getElementById('search-form');
+
+
+        searchBtn.addEventListener('click', () => {
+            if (searchForm.style.display === 'none') {
+                searchForm.style.display = 'block';
+            } else {
+                searchForm.style.display = 'none';
+            }
+        });
+    </script>
+
+<script>
+    document.getElementById('searchName-btn').addEventListener('click', function() {
+        const form = document.getElementById('searchName-form');
+
+        if (form.style.display === 'none' || form.style.display === '') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    });
+</script>
+
+<script>
+    function updateActionUrl(event) {
+        event.preventDefault();
+        const productId = document.getElementById('id').value;
+        const form = document.getElementById('search-form');
+        form.action = `/products/${productId}`;
+        form.submit(); 
+    }
+</script>
+</body>
+</html>

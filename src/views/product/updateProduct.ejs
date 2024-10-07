@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Product.css">
+    <title>Product</title>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="/category">Categories</a></li>
+                <li><a href="/products">Products</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header>
+                <h1>Product</h1>
+            </header>
+
+            <section id="products">
+                <h2>Update Product</h2>
+
+                <p><strong>Product ID:</strong> <%= product.Product_id %></p>
+                <p><strong>Product Name:</strong> <%= product.Product_name %></p>
+                <p><strong>Created At:</strong> <%= product.createdAt %></p>
+                <p><strong>Last Update:</strong> <%= product.updatedAt %></p>
+
+                <form id="update-form" class="product-form" action="/products/updateProduct/<%= product.Product_id %>?_method=PUT" method="POST">
+                    <div class="form-group">
+                        <label for="product-name">Enter New Product Name:</label>
+                        <input type="text" id="Product_name" name="Product_name" required placeholder="Product Name">
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="product-description">Enter New Product Description:</label>
+                        <textarea id="Product_description" name="Product_description" placeholder="Product Description"></textarea>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="product-price">Enter New Product Price:</label>
+                        <input type="number" id="Product_price" name="Product_price" required placeholder="Product Price" step="0.01">
+                    </div>
+                
+                    <div class="form-group">
+                        <label for="product-quantity">Enter New Product Quantity:</label>
+                        <input type="number" id="Product_quantity" name="Product_quantity" required placeholder="Product Quantity">
+                    </div>
+                
+                    <button type="submit" class="submit-btn">Update</button>
+                </form>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

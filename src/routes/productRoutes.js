@@ -36,9 +36,17 @@ router.get('/', cacheMiddleware('productsAndCategories', 3600), async (req, res,
 
       const totalValue = product.map(prod => prod.Product_price * prod.Product_quantity);
 
-      res.render('product/productHome', {  product,
-        categories,
-        totalValue,
+      // res.render('product/productHome', {  product,
+      //   categories,
+      //   totalValue,
+      //   currentPage: page,
+      //   totalPages: totalPages
+      // });
+
+      res.json({
+        success: true,
+        products: product,
+        totalValue: totalValue,
         currentPage: page,
         totalPages: totalPages
       });
@@ -82,13 +90,22 @@ router.post('/filterByCategory', cacheMiddleware('productsAndCategories', 3600),
 
     const totalValue = product.map(prod => prod.Product_price * prod.Product_quantity);
 
-    res.render('product/productHome', { 
-      product, 
-      categories, 
-      totalValue,
-      currentPage: page,
-      totalPages: totalPages 
-    });
+    // res.render('product/productHome', { 
+    //   product, 
+    //   categories, 
+    //   totalValue,
+    //   currentPage: page,
+    //   totalPages: totalPages 
+    // });
+
+     res.json({
+        success: true,
+        products: product,
+        categories: categories,
+        totalValue: totalValue,
+        currentPage: page,
+        totalPages: totalPages
+      });
 
   } catch (error) {
     next(new ServerError("Failed to fetch products and categories."));
@@ -96,18 +113,18 @@ router.post('/filterByCategory', cacheMiddleware('productsAndCategories', 3600),
 });
 
 
-router.get('/addProduct', async (req, res) => {
+// router.get('/addProduct', async (req, res) => {
 
-    const categories = await Category.findAll({
-        where: {
-          isDeleted: false,
-        },
-      });
+//     const categories = await Category.findAll({
+//         where: {
+//           isDeleted: false,
+//         },
+//       });
 
-    res.render('product/addProduct',{categories})
+//     res.render('product/addProduct',{categories})
 
 
-});
+// });
 
 router.post('/',validateProduct, cacheInvalidationMiddleware, async (req, res) => {
   var { Product_name, Product_description, Product_price, Product_quantity, Category_id } = req.body;
@@ -129,11 +146,11 @@ router.post('/',validateProduct, cacheInvalidationMiddleware, async (req, res) =
   }
 });
 
-router.get('/searchProduct', async (req, res) => {
+// router.get('/searchProduct', async (req, res) => {
 
-    res.render('product/searchProduct')
+//     res.render('product/searchProduct')
 
-});
+// });
 
 router.post('/searchNameProduct', async (req, res) => {
 
@@ -148,7 +165,9 @@ router.post('/searchNameProduct', async (req, res) => {
   });
 
   if (!product) {
-    return res.render('product/searchResult', { product: null, categories: null, totalValue: null });
+    // return res.render('product/searchResult', { product: null, categories: null, totalValue: null });
+
+    res.status(500).json({ message: 'Failed to find product' });
   }
 
   const categories = await Category.findOne({
@@ -160,16 +179,17 @@ router.post('/searchNameProduct', async (req, res) => {
   const totalValue = product.Product_price*product.Product_quantity;
 
 
-  res.render('product/searchResult', { product, categories,totalValue});
+  // res.render('product/searchResult', { product, categories,totalValue});
+  res.json({product , totalValue})
 
 });
 
-router.get('/updateProduct/:id',async (req, res) => {
+// router.get('/updateProduct/:id',async (req, res) => {
 
-    const id = req.params.id;
-    const product = await Product.findOne({ where: { Product_id: id } });
-    res.render('product/updateProduct',{product});
-  });
+//     const id = req.params.id;
+//     const product = await Product.findOne({ where: { Product_id: id } });
+//     res.render('product/updateProduct',{product});
+//   });
 
   router.put('/updateProduct/:id',validateProduct,cacheInvalidationMiddleware, async (req, res, next) => {
     const id = req.params.id;
@@ -196,12 +216,12 @@ router.get('/updateProduct/:id',async (req, res) => {
     }
 });
 
-router.get('/deleteProduct/:id',async (req, res) => {
+// router.get('/deleteProduct/:id',async (req, res) => {
 
-    const id = req.params.id;
-    const product = await Product.findOne({ where: { Product_id: id } });
-    res.render('product/deleteProduct',{product});
-  });
+//     const id = req.params.id;
+//     const product = await Product.findOne({ where: { Product_id: id } });
+//     res.render('product/deleteProduct',{product});
+//   });
 
 
 
@@ -219,20 +239,20 @@ router.get('/deleteProduct/:id',async (req, res) => {
   
   });
 
-  router.get('/productBin',async (req, res) => {
+  // router.get('/productBin',async (req, res) => {
 
-    const product = await Product.findAll({
-        where: {
-          isDeleted: true,
-        },
-      });
+  //   const product = await Product.findAll({
+  //       where: {
+  //         isDeleted: true,
+  //       },
+  //     });
 
-      if (product) {
+  //     if (product) {
 
-        res.render('product/productBin',{product});
-    }
+  //       res.render('product/productBin',{product});
+  //   }
 
-  });
+  // });
 
   router.get('/restoreProduct/:id',async (req, res) => {
 
@@ -247,6 +267,10 @@ router.get('/deleteProduct/:id',async (req, res) => {
     }
   });
 
+  // for testing try(http://localhost:3000/products/sort?criteria=Product_price&sort=asc)
+  // for testing try(http://localhost:3000/products/sort?criteria=Product_price&sort=desc)
+  // for testing try(http://localhost:3000/products/sort?criteria=Product_quantity&sort=asc)
+  // for testing try(http://localhost:3000/products/sort?criteria=Product_quantity&sort=desc)
   router.get('/sort',async (req, res) => {
 
     const sortOption = req.query.sort;
@@ -272,7 +296,9 @@ router.get('/deleteProduct/:id',async (req, res) => {
       });
 
 
-    res.render('product/productHome', { product, categories,totalValue });
+    // res.render('product/productHome', { product, categories,totalValue });
+
+  res.json({product,categories,totalValue});
   });
 
   router.get('/:id', async (req, res) => {
@@ -287,7 +313,9 @@ router.get('/deleteProduct/:id',async (req, res) => {
         const Category_id = product.Category_id;
         const categories = await Category.findOne({ where: { Category_id: Category_id } });
         const totalValue = product.Product_price*product.Product_quantity;
-        res.render('product/searchResult', { product,categories,totalValue });
+        // res.render('product/searchResult', { product,categories,totalValue });
+
+        res.json({product,categories,totalValue})
     } else {
        
         res.render('product/searchResult', { product: null });

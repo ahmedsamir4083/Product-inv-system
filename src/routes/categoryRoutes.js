@@ -10,15 +10,15 @@ const validateCategory = require('../validation/categoryValidation');
 
 
 
-router.get('/',cacheMiddleware('productsAndCategories', 3600), async (req, res) => {
-
+router.get('/', cacheMiddleware('productsAndCategories', 3600), async (req, res, next) => {
+  try {
     const categories = await Category.findAll({
-        where: {
-          isDeleted: false,
-        },
-      });
-
-    res.render('Category',{categories});
+      where: { isDeleted: false }
+    });
+    res.json({ success: true, categories });
+  } catch (error) {
+    next(new Error("Failed to fetch categories"));
+  }
 });
   
 
@@ -27,7 +27,7 @@ router.get('/',cacheMiddleware('productsAndCategories', 3600), async (req, res) 
   });
   
 
-  router.post('/addCategory',validateCategory,cacheInvalidationMiddleware, async (req, res) => {
+  router.post('/addCategory',cacheInvalidationMiddleware, async (req, res) => {
     const { Category_name, Category_description } = req.body;
   
     try {
@@ -54,20 +54,22 @@ router.get('/searchCategory', (req, res) => {
 
     if (category) {
 
-        res.render('searchResult', { category });
+        res.json({ category })
+        // res.render('searchResult', { category });
     } else {
 
-        res.render('searchResult', { category: null });
+        // res.render('searchResult', { category: null });
+        res.status(500).json({ message: 'Failed to find category' });
     }
   });
 
-  router.get('/updateCategory/:id',async (req, res) => {
+  // router.get('/updateCategory/:id',async (req, res) => {
 
-    const id = req.params.id;
-    const category = await Category.findOne({ where: { Category_id: id } });
-    res.render('updateCategory',{category});
+  //   const id = req.params.id;
+  //   const category = await Category.findOne({ where: { Category_id: id } });
+  //   res.render('updateCategory',{category});
     
-  });
+  // });
 
   router.put('/updateCategory/:id',validateCategory,cacheInvalidationMiddleware, async (req, res) => {
     const id = req.params.id;
@@ -83,7 +85,9 @@ router.get('/searchCategory', (req, res) => {
             category.updatedAt = new Date();
 
             await category.save();
+            
 
+            
             res.redirect('/category')
 
 
@@ -96,12 +100,12 @@ router.get('/searchCategory', (req, res) => {
 });
 
 
-router.get('/deleteCategory/:id',async (req, res) => {
+// router.get('/deleteCategory/:id',async (req, res) => {
 
-    const id = req.params.id;
-    const category = await Category.findOne({ where: { Category_id: id } });
-    res.render('deleteCategory',{category});
-  });
+//     const id = req.params.id;
+//     const category = await Category.findOne({ where: { Category_id: id } });
+//     res.render('deleteCategory',{category});
+//   });
 
 
 
